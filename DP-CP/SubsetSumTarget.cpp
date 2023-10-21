@@ -1,0 +1,117 @@
+// Problem Name: The Subset Sum To Target 
+// Problem Difficulty: 2
+// Problem Constraints: 1<= n <= 1000<br>
+// 1<= sum <= 10^5<br>
+// 1<= Ai <=10^4
+// Problem Description:
+// Given a set of "n" non-negative integers, and a value "sum", determine if there is a subset of the given set with sum equal to given sum.
+
+// Input Format: 1st Line: n sum
+// 2nd Line: a1 a2......an (Array Values)
+// Sample Input: 5 10
+// 1 2 3 4 5
+// Output Format: Yes, if sum exist
+// No, it sum does not exist
+// Sample Output: Yes
+
+
+
+// =====Solution=====
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int sum=0;
+
+bool subSum(vector<int> &v ,int sum,int i)
+{
+    if(i==v.size()){
+        if(sum==0){  //count to check whether any element was taken or not as ques need non empty set.
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    bool take=false;
+    
+    if(v[i]<=sum){
+        take=subSum(v,sum-v[i],i+1);
+    }
+    bool notTake=subSum(v,sum,i+1);
+
+    return take|| notTake;
+    
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int target;
+        cin>>target;
+        
+        vector<int>v(n);
+        for(int i=0;i<n;i++){
+            cin>>v[i];
+        }
+        if(subSum(v,0,target)){
+            cout<<"YES"<<endl;
+        }
+        else{
+            cout<<"NO"<<endl;
+        }
+        
+    }
+    
+    return 0;
+}
+
+
+
+// #include <iostream>
+// using namespace std;
+
+// bool subsetSum(int *arr, int n, int target) {
+// 	bool **dp = new bool*[n+1];
+// 	for(int i=0;i<=n;i++) {
+// 		dp[i] = new bool[target+1];
+// 	}
+// 	dp[0][0] = true; // If sum is zero and no element is taken ans is true
+// 	for(int i=1;i<=n;i++) { // If sum is zero ans is always true
+// 		dp[i][0] = true;
+// 	}
+// 	for(int i=1;i<=target;i++) { // If no element is chosen and sum is not zero ans is false
+// 		dp[0][i] = false;
+// 	}
+// 	for(int i=1;i<=n;i++) {
+// 		for(int j=1;j<=target;j++) {
+// 			if(j<arr[i-1]) {
+// 				dp[i][j] = dp[i-1][j];
+// 			} 
+// 			if(j>=arr[i-1]) {
+// 				dp[i][j] = dp[i-1][j] or dp[i-1][j-arr[i-1]];
+// 			}
+// 		}
+// 	}
+// 	return dp[n][target];
+
+// }
+
+// int main(int argc, char const *argv[])
+// {
+// 	int n, target;
+// 	cin>>n>>target;
+// 	int *arr = new int[n];
+// 	for(int i=0;i<n;i++) {
+// 		cin>>arr[i];
+// 	}
+// 	if(subsetSum(arr, n, target)) cout<<"Yes";
+// 	else cout<<"No";
+// 	return 0;
+// }
