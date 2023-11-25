@@ -1,0 +1,106 @@
+F. Mahmoud and Ehab and yet another xor task
+time limit per test1 second
+memory limit per test512 megabytes
+inputstandard input
+outputstandard output
+Ehab has an array a of n integers. He likes the bitwise-xor operation and he likes to bother Mahmoud so he came up with a problem. He gave Mahmoud q queries. In each of them, he gave Mahmoud 2 integers l and x, and asked him to find the number of subsequences of the first l elements of the array such that their bitwise-xor sum is x. Can you help Mahmoud answer the queries?
+
+A subsequence can contain elements that are not neighboring.
+
+Input
+The first line contains integers n and q (1 ≤ n, q ≤ 105), the number of elements in the array and the number of queries.
+
+The next line contains n integers a1, a2, ..., an (0 ≤ ai < 220), the elements of the array.
+
+The next q lines, each contains integers l and x (1 ≤ l ≤ n, 0 ≤ x < 220), representing the queries.
+
+Output
+For each query, output its answer modulo 109 + 7 in a newline.
+
+
+  
+/*AUTHOR-ARYAN KUMAR*/
+#include <bits/stdc++.h>
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+#define IOS                       \
+    ios_base::sync_with_stdio(0); \
+    cin.tie(0);                   \
+    cout.tie(0)
+#define pll pair<ll, ll>
+#define vvl vector<vector<ll>>
+#define loop(i, n) for (long long i = 0; i < n; ++i)
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<pair<int,int>,null_type,less<pair<int,int>>,rb_tree_tag,tree_order_statistics_node_update>PBDS;
+using ll = long long;
+const int32_t MOD = 1e9 + 7;
+// sort(nums.begin(),nums.end(),[&](int a,int b){
+//             return map[a]!=map[b]?map[a]<map[b]:a>b;
+//         });
+bool cmp(pair<int,int>a,pair<int,int>b){
+if(a.first!=b.first)return a.first>b.first;
+return a.second<b.second;
+}
+bool cmp2(pair<int,int>a,pair<int,int>b){
+if(a.second==b.second)return a.first<b.first;
+return a.second>b.second;
+}
+
+void solve(){
+    ll mod=1e9+7;
+    ll n,q;
+    cin>>n>>q;
+    vector<ll>v(n);
+    for(ll i=0;i<n;i++){
+        cin>>v[i];
+    }
+    vector<ll>fans(q);
+    vector<vector<pair<ll,ll>>>query(n);
+    for(ll i=0;i<q;i++){
+        ll a,b;
+        cin>>a>>b;
+        a--;   //length is from 1..2.3...n
+        query[a].push_back({b,i});
+    }
+    set<ll>st;
+    st.insert(0);
+    ll ans=1;
+    for(ll i=0;i<n;i++){
+        if(st.find(v[i])!=st.end()){
+            ans=(ans*2)%mod;
+        }
+        else{
+            vector<ll>temp;
+            for(auto x:st){
+                temp.push_back(x^v[i]);
+            }
+            for(auto x:temp){
+                st.insert(x);
+            }
+        }
+        for(auto it:query[i]){
+            if(st.find(it.first)!=st.end()){
+                fans[it.second]=ans;
+            }
+            else{
+                fans[it.second]=0;
+            }
+        }
+    }
+    for(ll i=0;i<q;i++){
+        cout<<fans[i]<<endl;
+    }
+    // cout<<endl;
+}
+signed main()
+{
+    IOS;
+    int t;
+    // cin>>t;
+    t=1;
+    while(t--){
+        solve();
+    }
+    return 0;
+}
