@@ -1,0 +1,56 @@
+Problem Name: 
+Problem Difficulty: 
+Problem Constraints: l, r<=10^18
+Problem Description:
+Given two integers l and r , your task is to find the maximum xor of two integers both of which lying between l and r inclusive.
+
+
+Input Format: The first line contains l and r separated by a space.
+Sample Input: 79242383109441603 533369389165030783
+Output Format: Output is a single number denoting the maximum xor
+Sample Output: 576460752303423487
+
+
+
+=====Solution=====
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <iostream>
+#include <vector>
+#include <list>
+#include <string>
+#include <algorithm>
+#include <queue>
+#include <stack>
+#include <set>
+#include <map>
+#include <complex>
+#define MAX_N 300001
+using namespace std;
+typedef long long lld;
+ 
+lld l, r;
+lld ret = 0LL;
+lld br = 1;
+int poz = 0;
+ 
+int main()
+{
+    cin >> l >> r;
+    lld razl = r - l;
+    while (razl >= br)
+    {
+        ret += br;
+        br *= 2;
+        poz++;
+    }
+    while (r >= br)
+    {
+        if ((((l>>poz)^(r>>poz))&1LL)==1LL) ret += br;
+        br *= 2;
+        poz++;
+    }
+    cout << ret << endl;
+    return 0;
+}
