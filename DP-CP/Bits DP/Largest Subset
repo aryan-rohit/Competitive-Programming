@@ -33,13 +33,13 @@ int rec(int id, int mask){
     int &ret = dp[id][mask];
     if(ret != -1) return ret;
     if(A[id] == 1) return ret = 1 + rec(id + 1, mask);
-    ret = rec(id + 1, mask);
+    ret = rec(id + 1, mask);  //jab Ith number na le rahe ho
     REP(i, 0, G[A[id]].size()){
         int u = G[A[id]][i];
-        if(mask & (1 << u)) return ret;
+        if(mask & (1 << u)) return ret;  //factor match kar gaya to ith element skipped
         mask |= (1 << u);
     }
-    ret = max(ret, 1 + rec(id + 1, mask));
+    ret = max(ret, 1 + rec(id + 1, mask)); // factor not matched so selecting best out of two choices
     return ret;
 }
 int solve(){
@@ -47,7 +47,7 @@ int solve(){
         G[i].clear();
         REP(j, 0, 15){
             if(prime[j] > i) break;
-            if(i % prime[j] == 0) G[i].push_back(j);
+            if(i % prime[j] == 0) G[i].push_back(j); // creating prime factors storing index
         }
     }
     memset(dp, -1, sizeof dp);
