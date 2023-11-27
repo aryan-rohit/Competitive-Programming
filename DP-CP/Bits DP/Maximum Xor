@@ -30,11 +30,20 @@ Sample Output: 576460752303423487
 using namespace std;
 typedef long long lld;
  
+ //if leftmost bit of R is 1 and L is 0 then 
+    //01111111..
+   // 10000000..
+//this is possible as x and y >L and <R and has max xor
+//case 2:
+//find the left most bit where R and L bits differ then use the case 1.
+//11001..
+//11000...
+//first 4 bit cant be changed else violate the condition of x,y >L and <R.
+
 lld l, r;
 lld ret = 0LL;
 lld br = 1;
 int poz = 0;
- 
 int main()
 {
     cin >> l >> r;
