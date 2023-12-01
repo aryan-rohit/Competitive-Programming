@@ -1,0 +1,165 @@
+Problem Name: Subarrays with distinct elements
+Problem Difficulty: None
+Problem Constraints: 1<=N<=10^5
+Problem Description:
+Given an array, the task is to calculate the sum of lengths of contiguous subarrays having all elements distinct
+
+Input Format: An integer n denoting size of array followed by n integers
+Sample Input: 3
+1 2 3
+Output Format: The answer mod 10^9+7
+Sample Output: 10
+
+
+
+
+/*AUTHOR-ARYAN KUMAR*/
+#include <bits/stdc++.h>
+using namespace std;
+
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+#define IOS                       \
+    ios_base::sync_with_stdio(0); \
+    cin.tie(0);                   \
+    cout.tie(0)
+    
+using namespace __gnu_pbds;
+typedef tree<pair<int,int>,null_type,less<pair<int,int>>,rb_tree_tag,tree_order_statistics_node_update>PBDS;
+// sort(nums.begin(),nums.end(),[&](int a,int b){
+//             return map[a]!=map[b]?map[a]<map[b]:a>b;
+//         });
+bool cmp(pair<int,int>a,pair<int,int>b){
+if(a.first!=b.first)return a.first>b.first;
+return a.second<b.second;
+}
+bool cmp2(pair<int,int>a,pair<int,int>b){
+if(a.second==b.second)return a.first<b.first;
+return a.second>b.second;
+}
+using ll = long long;
+const int32_t MOD = 1e9 + 7;
+#define endl "\n"
+
+bool isPrime(int n){
+    for(int i=2;i<=sqrt(n);i++){
+        if(n%i==0){
+            return false;
+        }
+    }
+    return true;
+}
+// ll dp[200001][2];
+
+// class DisJoint{
+//     vector<int>par,siz;
+//     public:
+//     DisJoint(int n){
+//         siz.resize(n+1);
+//         par.resize(n+1);
+//         for(int i=0;i<=n;i++){
+//             par[i]=i;
+//         }
+//     }
+//     int find(int node){
+//         if(node==par[node]){
+//             return node;
+//         }
+//         return par[node]=find(par[node]);
+//     }
+//     void unionsize(int u,int v){
+//         int pu=find(u);
+//         int pv=find(v);
+//         if(pu==pv) return;
+//         if(siz[pu]>=siz[pv]){
+//             par[pv]=par[pu];
+//             siz[pu]+=siz[pv];
+//         }
+//         else{
+//             par[pu]=par[pv];
+//             siz[pv]+=siz[pu];
+//         }
+//     }
+// };
+    
+    
+ll MODD=998244353;
+// int xpoweryMOD(ll x, ll y, ll mod)
+// {
+//     ll res = 1;
+//     if (x == 0)
+//         return 0;
+//     while (y)
+//     {
+//         if (y & 1)
+//             (res *= x) %= mod;
+//         y >>= 1;
+//         (x *= x) %= mod;
+//     }
+//     return res;
+// }
+ 
+// int func(int val, int x)
+// {
+//     int pw = xpoweryMOD(2, x, MODD);
+//     int ans = (val * pw) % MODD;
+//     return ans;
+// }
+
+// bool compare(string &a , string &b){
+//     if(a.length()<=b.length()&& b.substr(0,a.length())==a) return false;
+//     if(a.length()>=b.length()&& a.substr(0,b.length())==b) return true;
+//     else{
+//         return a<b;
+//     }
+// }
+void solve(){
+    int n;
+    cin>>n;
+    vector<int>v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i];
+    }
+    int i=0,j=0;
+    ll ans=0;
+    map<int,int>st;
+    while(j<n){
+        st[v[j]]++;
+        if(st[v[j]] ==1){
+            j++;
+        }
+        else{
+            while(st[v[j]] ==2){
+                int x=st.size();
+                cout<<"x"<<x<<endl;
+                ans+=(x*(x+1))/2;
+                st.erase(v[i]);
+                i++;
+                
+            }
+        }
+        
+        
+    }
+           while(st.empty()==false){
+                int x=st.size();
+                ans+=(x*(x+1))/2;
+                st.erase(v[i]);
+                i++;
+                
+            }
+    cout<<ans<<endl;
+    
+}
+int main()
+{
+    IOS;
+ 
+    int t=1;
+    // cin>>t;
+    
+    while(t--){
+        solve();
+    }
+    return 0;
+}
